@@ -110,6 +110,10 @@ public:
 	///</summary>
     MeshData CreateQuad(float x, float y, float w, float h, float depth);
 
+	///<summary>
+	/// Creates a pyramid with a given base width and top height.
+	///</summary>
+	MeshData CreatePyramid(float baseWidth, float height);
 private:
 	void Subdivide(MeshData& meshData);
     Vertex MidPoint(const Vertex& v0, const Vertex& v1);

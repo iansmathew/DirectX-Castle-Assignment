@@ -332,9 +332,9 @@ void ShapesApp::OnMouseMove(WPARAM btnState, int x, int y)
 void ShapesApp::OnKeyboardInput(const GameTimer& gt)
 {
     if(GetAsyncKeyState('1') & 0x8000)
-        mIsWireframe = false;
-    else
         mIsWireframe = true;
+    else
+        mIsWireframe = false;
 }
  
 void ShapesApp::UpdateCamera(const GameTimer& gt)
@@ -531,6 +531,12 @@ void ShapesApp::BuildShapeGeometry()
 	GeometryGenerator::MeshData grid = geoGen.CreateGrid(20.0f, 30.0f, 60, 40);
 	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
 	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.3f, 3.0f, 20, 20);
+
+	//------------------------------
+	// CUSTOM SHAPES - TEST HERE
+	//------------------------------
+
+	//GeometryGenerator::MeshData box = geoGen.CreatePyramid(2.0f, 1.0f);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So

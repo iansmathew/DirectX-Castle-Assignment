@@ -655,3 +655,80 @@ GeometryGenerator::MeshData GeometryGenerator::CreateQuad(float x, float y, floa
 
     return meshData;
 }
+
+GeometryGenerator::MeshData GeometryGenerator::CreatePyramid(float baseWidth, float height)
+{
+	MeshData meshData;
+
+	meshData.Vertices.resize(5);
+	meshData.Indices32.resize(18);
+
+	float halfWidth = baseWidth / 2.0f;
+
+	/*
+		NOTE: Vertices DO NOT contain normals or texture coords. 
+		To be added later
+	*/
+
+	// Top point
+	meshData.Vertices[0] = Vertex(
+		0.0f, height, 0.0f, 
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f
+	);
+
+	meshData.Vertices[1] = Vertex(
+		-halfWidth, 0.0f, -halfWidth,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f
+	);
+
+	meshData.Vertices[2] = Vertex(
+		halfWidth, 0.0f, -halfWidth,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f
+	);
+
+	meshData.Vertices[3] = Vertex(
+		halfWidth, 0.0f, halfWidth,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f
+	);
+
+	meshData.Vertices[4] = Vertex(
+		-halfWidth, 0.0f, halfWidth,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f
+	);
+
+	meshData.Indices32[0] = 0;
+	meshData.Indices32[1] = 2;
+	meshData.Indices32[2] = 1;
+
+	meshData.Indices32[3] = 0;
+	meshData.Indices32[4] = 3;
+	meshData.Indices32[5] = 2;
+
+	meshData.Indices32[6] = 0;
+	meshData.Indices32[7] = 4;
+	meshData.Indices32[8] = 3;
+
+	meshData.Indices32[9] = 0;
+	meshData.Indices32[10] = 1;
+	meshData.Indices32[11] = 4;
+
+	meshData.Indices32[12] = 4;
+	meshData.Indices32[13] = 1;
+	meshData.Indices32[14] = 2;
+
+	meshData.Indices32[15] = 4;
+	meshData.Indices32[16] = 2;
+	meshData.Indices32[17] = 3;
+
+	return meshData;
+}
