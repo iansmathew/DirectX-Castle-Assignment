@@ -416,6 +416,57 @@ GeometryGenerator::MeshData GeometryGenerator::CreateHalfCone(float topRadius, f
 	return meshData;
 }
 
+GeometryGenerator::MeshData GeometryGenerator::CreatePrism(float length, float height, float width)
+{
+	MeshData meshData;
+	meshData.Vertices.resize(6);
+	meshData.Indices32.resize(8 * 3);
+
+	// Create vertices
+	meshData.Vertices[0] = Vertex(width / 2.0f, 0.0f, -length / 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshData.Vertices[1] = Vertex(width / 2.0f, 0.0f, length / 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshData.Vertices[2] = Vertex(-width / 2.0f, 0.0f, length / 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshData.Vertices[3] = Vertex(-width / 2.0f, 0.0f, -length / 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshData.Vertices[4] = Vertex(0.0f, height, -length / 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshData.Vertices[5] = Vertex(0.0f, height, length / 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+
+	// Create indices
+
+	meshData.Indices32.push_back(0); //BOTTOM FACE 
+	meshData.Indices32.push_back(1);
+	meshData.Indices32.push_back(2);
+
+	meshData.Indices32.push_back(0); //BOTTOM FACE
+	meshData.Indices32.push_back(2);
+	meshData.Indices32.push_back(3);
+
+	meshData.Indices32.push_back(0); //RIGHT FACE
+	meshData.Indices32.push_back(4);
+	meshData.Indices32.push_back(1);
+
+	meshData.Indices32.push_back(1); //RIGHT FACE
+	meshData.Indices32.push_back(4);
+	meshData.Indices32.push_back(5);
+
+	meshData.Indices32.push_back(2); //LEFT FACE
+	meshData.Indices32.push_back(5);
+	meshData.Indices32.push_back(3);
+
+	meshData.Indices32.push_back(3); //LEFT FACE
+	meshData.Indices32.push_back(5);
+	meshData.Indices32.push_back(4);
+
+	meshData.Indices32.push_back(3); //FRONT FACE
+	meshData.Indices32.push_back(4);
+	meshData.Indices32.push_back(0);
+
+	meshData.Indices32.push_back(2); //BACK FACE
+	meshData.Indices32.push_back(1);
+	meshData.Indices32.push_back(5);
+
+	return meshData;
+}
+
 void GeometryGenerator::Subdivide(MeshData& meshData)
 {
 	// Save a copy of the input geometry.

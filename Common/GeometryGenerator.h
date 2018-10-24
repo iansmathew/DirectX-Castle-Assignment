@@ -135,6 +135,11 @@ public:
 	///</summary>
 	MeshData CreateHalfCone(float topRadius, float bottomRadius, float height, uint32 sliceCount);
 
+	///<summary>
+	/// Creates a prism with a given length, height and width
+	///</summary>
+	MeshData CreatePrism(float length, float height, float width);
+
 private:
 	void Subdivide(MeshData& meshData);
     Vertex MidPoint(const Vertex& v0, const Vertex& v1);
