@@ -211,6 +211,46 @@ GeometryGenerator::MeshData GeometryGenerator::CreateSphere(float radius, uint32
     return meshData;
 }
  
+GeometryGenerator::MeshData GeometryGenerator::CreateWedge(float baseWidth, float height, float thickness)
+{
+	MeshData meshdData;
+
+	meshdData.Vertices.resize(6);
+	meshdData.Indices32.resize(8 * 3); //8 triangles, 3 indices per triangle
+
+	// Create vertices
+
+	float halfThickness = thickness / 2.0f;
+	float halfWidth = baseWidth / 2.0f;
+
+	meshdData.Vertices[0] = Vertex(halfThickness, 0.0f, -halfWidth, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshdData.Vertices[1] = Vertex(halfThickness, 0.0f, halfWidth, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshdData.Vertices[2] = Vertex(-halfThickness, 0.0f, halfWidth, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshdData.Vertices[3] = Vertex(-halfThickness, 0.0f, -halfWidth, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshdData.Vertices[4] = Vertex(halfThickness, height, halfWidth, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	meshdData.Vertices[5] = Vertex(-halfThickness, height, halfWidth, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+
+	// Create indices
+	uint32 indices[] = 
+	{
+		0, 1, 2,	//bottomn face
+		0, 2, 3,
+		1, 4, 5,	//back face
+		1, 5, 2,
+		0, 4, 1,	//left face
+		2, 5, 3,	//right face
+		0, 5, 4,	//front face
+		3, 5, 0
+	};
+
+	for (int i = 0; i < 8 * 3; i++)
+	{
+		meshdData.Indices32.push_back(indices[i]);
+	}
+
+	return meshdData;
+}
+
 void GeometryGenerator::Subdivide(MeshData& meshData)
 {
 	// Save a copy of the input geometry.
@@ -732,3 +772,4 @@ GeometryGenerator::MeshData GeometryGenerator::CreatePyramid(float baseWidth, fl
 
 	return meshData;
 }
+

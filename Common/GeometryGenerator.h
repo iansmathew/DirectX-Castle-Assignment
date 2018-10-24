@@ -114,6 +114,12 @@ public:
 	/// Creates a pyramid with a given base width and top height.
 	///</summary>
 	MeshData CreatePyramid(float baseWidth, float height);
+
+	///<summary>
+	/// Creates a 45 degree wedge with a base width, height and thickness
+	///</summary>
+	MeshData CreateWedge(float baseWidth, float height, float thickness);
+
 private:
 	void Subdivide(MeshData& meshData);
     Vertex MidPoint(const Vertex& v0, const Vertex& v1);
