@@ -251,7 +251,7 @@ GeometryGenerator::MeshData GeometryGenerator::CreateWedge(float baseWidth, floa
 	return meshdData;
 }
 
-GeometryGenerator::MeshData GeometryGenerator::CreateCone(float baseRadius, float height, float sliceCount)
+GeometryGenerator::MeshData GeometryGenerator::CreateCone(float baseRadius, float height, uint32 sliceCount)
 {
 	MeshData meshData;
 
@@ -342,6 +342,76 @@ GeometryGenerator::MeshData GeometryGenerator::CreateDiamond(float w, float h, f
 
 
 	meshData.Indices32.assign(&indexList[0], &indexList[102]);
+
+	return meshData;
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreateHalfCone(float topRadius, float bottomRadius, float height, uint32 sliceCount)
+{
+	MeshData meshData;
+
+	#pragma region TOP_CAP
+
+	// Duplicate cap ring vertices because the texture coordinates and normals differ.
+	float dTheta = 2.0f*XM_PI / sliceCount;
+
+	for (uint32 i = 0; i <= sliceCount; ++i)
+	{
+		float x = topRadius * cosf(i*dTheta);
+		float z = topRadius * sinf(i*dTheta);
+
+		meshData.Vertices.push_back(Vertex(x, height, z, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f));
+	}
+
+	uint32 startVertexIndex = meshData.Vertices.size() - 1;
+
+	for (uint32 i = 0; i <= sliceCount; ++i)
+	{
+		meshData.Indices32.push_back(startVertexIndex);
+		meshData.Indices32.push_back(i + 1);
+		meshData.Indices32.push_back(i);
+	}
+
+	#pragma endregion
+	
+	#pragma region BOTTOM_HALF
+
+	uint32 baseIndexStart = meshData.Vertices.size() - 1;
+
+	for (uint32 i = 0; i <= sliceCount; ++i)
+	{
+		float x = bottomRadius * cosf(i*dTheta);
+		float z = bottomRadius * sinf(i*dTheta);
+
+		meshData.Vertices.push_back(Vertex(x, 0.0f, z, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f));
+	}
+
+
+	startVertexIndex = meshData.Vertices.size() - 1;
+
+	for (uint32 i = 0; i <= sliceCount; ++i)
+	{
+		meshData.Indices32.push_back(startVertexIndex);
+		meshData.Indices32.push_back(baseIndexStart + i + 1);
+		meshData.Indices32.push_back(baseIndexStart + i + 2);
+	}
+
+	#pragma endregion
+
+	//Creating side triangles
+
+	uint32 offset = sliceCount - 1;
+
+	for (int i = 0; i <= sliceCount; i++)
+	{
+		meshData.Indices32.push_back(i);
+		meshData.Indices32.push_back(i + 1);
+		meshData.Indices32.push_back(i + offset + 2);
+		
+		meshData.Indices32.push_back(i + offset + 2);
+		meshData.Indices32.push_back(i + offset + 1);
+		meshData.Indices32.push_back(i);
+	}
 
 	return meshData;
 }

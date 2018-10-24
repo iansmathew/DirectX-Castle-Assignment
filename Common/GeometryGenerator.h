@@ -123,12 +123,17 @@ public:
 	///<summary>
 	/// Creates a cone with a given radius and height. SliceCount defines the number of sides.
 	///</summary>
-	MeshData CreateCone(float baseRadius, float height, float sliceCount);
+	MeshData CreateCone(float baseRadius, float height, uint32 sliceCount);
 
 	///<summary>
 	/// Creates a diamond.
 	///</summary>
 	MeshData CreateDiamond(float w, float h, float depth);
+
+	///<summary>
+	/// Creates a half cone of a given top radius and bottom radius.
+	///</summary>
+	MeshData CreateHalfCone(float topRadius, float bottomRadius, float height, uint32 sliceCount);
 
 private:
 	void Subdivide(MeshData& meshData);
