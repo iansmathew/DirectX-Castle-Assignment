@@ -125,6 +125,11 @@ public:
 	///</summary>
 	MeshData CreateCone(float baseRadius, float height, float sliceCount);
 
+	///<summary>
+	/// Creates a diamond.
+	///</summary>
+	MeshData CreateDiamond(float w, float h, float depth);
+
 private:
 	void Subdivide(MeshData& meshData);
     Vertex MidPoint(const Vertex& v0, const Vertex& v1);

@@ -292,6 +292,60 @@ GeometryGenerator::MeshData GeometryGenerator::CreateCone(float baseRadius, floa
 	return meshData;
 }
 
+GeometryGenerator::MeshData GeometryGenerator::CreateDiamond(float w, float h, float depth)
+{
+	MeshData meshData;
+
+	//
+	// Create the vertices.
+	//
+
+	Vertex v[36];
+
+	float w2 = 0.5f*w;
+	float h2 = h;
+	float d2 = 0.5f*depth;
+
+	//Point 0, Bottom of diamond
+	v[0] = Vertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+
+	//Middle Ring
+	v[1] = Vertex(0.0f, +h2 * 0.75f, -d2, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f);//Down
+	v[2] = Vertex(+w2 * 0.75, +h2 * 0.75, -d2 * 0.75, 0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f);//DownRight
+	v[3] = Vertex(+w2, +h2 * 0.75f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f); //Right
+	v[4] = Vertex(+w2 * 0.75, +h2 * 0.75, +d2 * 0.75, 0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f);//Upright
+	v[5] = Vertex(0.0f, +h2 * 0.75, +d2, 0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f);//Up
+	v[6] = Vertex(-w2 * 0.75, +h2 * 0.75, +d2 * 0.75, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);//UpLeft
+	v[7] = Vertex(-w2, +h2 * 0.75f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f); //Left
+	v[8] = Vertex(-w2 * 0.75, +h2 * 0.75, -d2 * 0.75, 0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f); //DownLeft
+
+	d2 = d2 * 0.75f;
+	w2 = w2 * 0.75f;
+	//Upper Ring
+	v[9] = Vertex(-w2, +h2, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f); //Left
+	v[10] = Vertex(-w2 * 0.75, +h2, -d2 * 0.75, 0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f); //DownLeft
+	v[11] = Vertex(0.0f, +h2, -d2, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f);//Down
+	v[12] = Vertex(+w2 * 0.75, +h2, -d2 * 0.75, 0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f);//DownRight
+	v[13] = Vertex(+w2, +h2, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f); //Right
+	v[14] = Vertex(+w2 * 0.75, +h2, +d2 * 0.75, 0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f);//Upright
+	v[15] = Vertex(0.0f, +h2, +d2, 0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f);//Up
+	v[16] = Vertex(-w2 * 0.75, +h2, +d2 * 0.75, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);//UpLeft
+
+
+
+	meshData.Vertices.assign(&v[0], &v[24]);
+
+	//
+	// Create the indices.
+	//
+	uint32 indexList[102] = { 0,1,2,0,2,3,0,3,4,0,4,5,0,5,6,0,6,7,0,7,8,0,8,1,1,11,12,1,12,2,2,12,13,2,13,3,3,13,14,3,14,4,4,14,15,4,15,5,5,15,16,5,16,6,6,16,9,6,9,7,7,9,10,7,10,8,8,10,11,8,11,1,11,13,12,13,15,14,15,9,16,9,11,10,11,9,15,11,15,13 };
+
+
+	meshData.Indices32.assign(&indexList[0], &indexList[102]);
+
+	return meshData;
+}
+
 void GeometryGenerator::Subdivide(MeshData& meshData)
 {
 	// Save a copy of the input geometry.
