@@ -120,6 +120,11 @@ public:
 	///</summary>
 	MeshData CreateWedge(float baseWidth, float height, float thickness);
 
+	///<summary>
+	/// Creates a cone with a given radius and height. SliceCount defines the number of sides.
+	///</summary>
+	MeshData CreateCone(float baseRadius, float height, float sliceCount);
+
 private:
 	void Subdivide(MeshData& meshData);
     Vertex MidPoint(const Vertex& v0, const Vertex& v1);

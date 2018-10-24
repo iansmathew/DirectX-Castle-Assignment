@@ -536,7 +536,7 @@ void ShapesApp::BuildShapeGeometry()
 	// CUSTOM SHAPES - TEST HERE
 	//------------------------------
 
-	GeometryGenerator::MeshData box = geoGen.CreateWedge(1.0f, 1.0f, 1.0f);
+	GeometryGenerator::MeshData box = geoGen.CreateCone(1.0f, 1.0f, 10);
 
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So

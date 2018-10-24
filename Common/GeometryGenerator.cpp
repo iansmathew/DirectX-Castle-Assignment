@@ -233,7 +233,7 @@ GeometryGenerator::MeshData GeometryGenerator::CreateWedge(float baseWidth, floa
 	// Create indices
 	uint32 indices[] = 
 	{
-		0, 1, 2,	//bottomn face
+		0, 1, 2,	//bottom face
 		0, 2, 3,
 		1, 4, 5,	//back face
 		1, 5, 2,
@@ -249,6 +249,47 @@ GeometryGenerator::MeshData GeometryGenerator::CreateWedge(float baseWidth, floa
 	}
 
 	return meshdData;
+}
+
+GeometryGenerator::MeshData GeometryGenerator::CreateCone(float baseRadius, float height, float sliceCount)
+{
+	MeshData meshData;
+
+	float dTheta = 2.0f*XM_PI / sliceCount;
+
+	// Duplicate cap ring vertices because the texture coordinates and normals differ.
+	for (uint32 i = 0; i <= sliceCount; ++i)
+	{
+		float x = baseRadius * cosf(i*dTheta);
+		float z = baseRadius * sinf(i*dTheta);
+
+		meshData.Vertices.push_back(Vertex(x, 0.0f, z, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f));
+	}
+
+	//Top point
+	meshData.Vertices.push_back(Vertex(0.0f, height, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f));
+	meshData.Vertices.push_back(Vertex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f));
+
+	uint32 topPointIndex = (uint32)meshData.Vertices.size() - 2;
+	uint32 bottomCenterIndex = (uint32)meshData.Vertices.size() - 1;
+
+	// Creating triangles
+	for (uint32 i = 0; i < sliceCount; ++i)
+	{
+		meshData.Indices32.push_back(topPointIndex);
+		meshData.Indices32.push_back(i + 1);
+		meshData.Indices32.push_back(i);
+	}
+
+	//// Create bottom face
+	for (uint32 i = 0; i <= sliceCount; ++i)
+	{
+		meshData.Indices32.push_back(bottomCenterIndex);
+		meshData.Indices32.push_back(i); //counter clockwise since its bottom face
+		meshData.Indices32.push_back(i+1);
+	}
+
+	return meshData;
 }
 
 void GeometryGenerator::Subdivide(MeshData& meshData)
