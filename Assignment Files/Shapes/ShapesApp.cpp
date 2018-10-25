@@ -536,8 +536,6 @@ void ShapesApp::BuildShapeGeometry()
 	// CUSTOM SHAPES - TEST HERE
 	//------------------------------
 
-	//GeometryGenerator::MeshData box = geoGen.CreatePrism(1.0f, 1.0f, 1.0f);
-
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
 	// define the regions in the buffer each submesh covers.
